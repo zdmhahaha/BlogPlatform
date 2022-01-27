@@ -1,7 +1,7 @@
 package blogplatform.service;
 
 import blogplatform.entity.User;
-import blogplatform.mapper.UserMapper;
+import blogplatform.dao.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +24,6 @@ public class UserService implements UserDetailsService {
     public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserMapper userMapper) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userMapper = userMapper;
-        //signUp("demo","demo");
     }
 
     //用户注册的方法

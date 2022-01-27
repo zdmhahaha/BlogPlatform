@@ -93,7 +93,6 @@ public class AuthController {
 
     }
 
-    //注销
     @GetMapping("/auth/logout")
     @ResponseBody
     public Result logout() {
@@ -106,6 +105,5 @@ public class AuthController {
             return Result.okStatusButNoLogin("注销成功");
         }
     }
-
 
 }

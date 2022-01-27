@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myBlogMapper">
+    <select id="selectBlogs" resultMap="allBlogs">
+        select blog.id as id,
+        user_id,
+        title,
+        description,
+        username,
+        u.avatar as avatar,
+        blog.created_at as created_at,
+        blog.updated_at as updated_at,
+        content
+        from blog
+        join `user` as u
+        on blog.user_id = u.id
+            <if test="user_id != null">
+                where user_id = #{user_id}
+            </if>
+        limit #{offset}, #{limit}
+    </select>
+    <resultMap id="allBlogs" type="blogplatform.entity.Blog">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <association property="user" javaType="blogplatform.entity.User">
+            <result property="username" column="username"/>
+            <result property="id" column="user_id"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+    </resultMap>
+    <!--<select id="selectBlogs" resultType="blogplatform.entity.Blog">
+        select * from blog
+            <if test="user_id != null">
+                where user_id = #{user_id}
+            </if>
+        limit #{offset}, #{limit}
+    </select>-->
+    <select id="countBlogs" resultType="Integer">
+        select count(*) from blog
+        <if test="user_id != null">
+            where user_id = #{user_id}
+        </if>
+    </select>
+    <select id="getBlogByBlogId" parameterType="Integer" resultMap="allBlogs">
+        select blog.id as id,
+        user_id,
+        title,
+        description,
+        username,
+        u.avatar as avatar,
+        blog.created_at as created_at,
+        blog.updated_at as updated_at,
+        content
+        from blog
+        join `user` as u
+        on blog.user_id = u.id
+        where blog.id = #{blogId}
+    </select>
+    <insert id="createBlog">
+        insert into blog
+        (user_id,title,description,content,created_at,updated_at)
+        values
+        (#{userId},#{title},#{description},#{content},now(),now())
+    </insert>
+    <update id="updateBlog">
+            update blog
+            set
+            title = #{title},
+            description = #{description},
+            content = #{content},
+            updated_at = now()
+            where blog.id = #{blogId}
+    </update>
+    <delete id="deleteBlog">
+        delete from blog
+        where blog.id = #{blogId}
+    </delete>
+</mapper>

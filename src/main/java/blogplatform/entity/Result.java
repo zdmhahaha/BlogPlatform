@@ -1,6 +1,7 @@
 package blogplatform.entity;
 
 public class Result {
+
     private String status;
     private String msg;
     private boolean isLogin;
@@ -14,10 +15,9 @@ public class Result {
         return new Result("ok", msg, false);
     }
 
-    public static Result okStatusAndLogin(String msg, Object user) {
-        return new Result("ok", msg, true, user);
+    public static Result okStatusAndLogin(String msg, Object data) {
+        return new Result("ok", msg, true, data);
     }
-
 
     private Result(String status, String msg, boolean isLogin) {
         this(status, msg, isLogin, null);
